@@ -1,0 +1,28 @@
+body {
+  background-color: #f8f9fa; /* offwhite */
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+
+h1 {
+  color: #001f3f; /* navy blue */
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.card {
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
