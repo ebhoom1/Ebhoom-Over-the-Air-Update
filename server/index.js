@@ -17,7 +17,7 @@ mongoose.connect('mongodb+srv://ebhoomFileUpload:ebhoomFileUpload@fileupload.lps
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  origin: ['http://localhost:3000', 'http://localhost:3001','http://13.233.118.179:8080'],
   credentials: true,
 }));
 
