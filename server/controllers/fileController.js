@@ -2,11 +2,8 @@ const multer = require('multer');
 const File = require('../models/File');
 const fs = require('fs');
 const path = require('path');
-
-// Ensure dotenv is configured
 require('dotenv').config();
 
-// Define upload directory
 const uploadDir = path.join(__dirname, '..', process.env.UPLOAD_DIR);
 
 if (!process.env.UPLOAD_DIR) {
@@ -14,7 +11,6 @@ if (!process.env.UPLOAD_DIR) {
     process.exit(1);
 }
 
-// Ensure the directory exists
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -36,17 +32,15 @@ const uploadFile = async (req, res) => {
             return res.status(500).send({ message: err.message });
         }
 
-        // Remove the previous file record
         await File.deleteMany({});
-        
-        // Save new file record
+
         const file = new File({
             filename: req.file.filename,
             path: req.file.path,
         });
 
         await file.save();
-        
+
         res.status(200).send({
             message: 'File uploaded successfully',
             downloadLink: `${req.protocol}://${req.get('host')}/api/files/download`,
