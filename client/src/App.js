@@ -3,6 +3,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'bootstrap-icons/font/bootstrap-icons.css'; // Correct import for Bootstrap Icons
 import './App.css';
 
 function App() {
@@ -31,6 +32,11 @@ function App() {
     }
   };
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(link);
+    toast.success('Link copied to clipboard!');
+  };
+
   return (
     <div className="container mt-5">
       <h1 className="text-center">Ebhoom Over the Air Update</h1>
@@ -43,7 +49,14 @@ function App() {
         {link && (
           <div className="mt-3">
             <p>Download Link:</p>
-            <a href={link}>{link}</a>
+            <div className="input-group">
+              <input type="text" className="form-control" value={link} readOnly />
+              <div className="input-group-append">
+                <button className="btn btn-outline-secondary" type="button" onClick={handleCopy}>
+                  <i className="bi bi-clipboard"></i>
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
