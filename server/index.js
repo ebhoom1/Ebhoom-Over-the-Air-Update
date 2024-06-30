@@ -10,17 +10,20 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://ebhoomFileUpload:ebhoomFileUpload@fileupload.lpsg05j.mongodb.net/fileUpload').then(() => {
+mongoose.connect('mongodb+srv://ebhoomFileUpload:ebhoomFileUpload@fileupload.lpsg05j.mongodb.net/fileUpload', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => {
   console.log('MongoDB connected');
 })
 .catch(err => {
   console.error('MongoDB connection error:', err);
 });
 
-
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001','http://13.233.118.179:8080'],
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'http://13.233.118.179:8080'],
   credentials: true,
 }));
 
@@ -74,11 +77,13 @@ app.get('/download/:shortId', async (req, res) => {
 });
 
 // Middleware to serve static files
-app.use(express.static(path.join(__dirname, '../client/build')));
+const staticPath = path.join(__dirname, '../client/build');
+console.log(`Serving static files from: ${staticPath}`);
+app.use(express.static(staticPath));
 
 // All other requests should be handled by React app
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  res.sendFile(path.join(staticPath, 'index.html'));
 });
 
 app.listen(port, () => {
