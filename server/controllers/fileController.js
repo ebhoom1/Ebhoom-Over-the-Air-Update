@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
         cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
-        cb(null, 'latest.pem');
+        cb(null, 'latest.bin');
     },
 });
 
@@ -49,7 +49,7 @@ const uploadFile = async (req, res) => {
         
         res.status(200).send({
             message: 'File uploaded successfully',
-            downloadLink: `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`,
+            downloadLink: `${req.protocol}://${req.get('host')}/api/files/download`,
         });
     });
 };
@@ -60,7 +60,9 @@ const getFile = async (req, res) => {
         return res.status(404).send({ message: 'No file found' });
     }
 
-    res.status(200).sendFile(path.resolve(file.path));
+    res.setHeader('Content-Disposition', 'attachment; filename=latest.bin');
+    res.setHeader('Content-Type', 'application/octet-stream');
+    res.sendFile(path.resolve(file.path));
 };
 
 module.exports = {
