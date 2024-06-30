@@ -10,10 +10,13 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://ebhoomFileUpload:ebhoomFileUpload@fileupload.lpsg05j.mongodb.net/fileUpload', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+mongoose.connect('mongodb+srv://ebhoomFileUpload:ebhoomFileUpload@fileupload.lpsg05j.mongodb.net/fileUpload').then(() => {
+  console.log('MongoDB connected');
+})
+.catch(err => {
+  console.error('MongoDB connection error:', err);
 });
+
 
 // Middleware
 app.use(cors({
