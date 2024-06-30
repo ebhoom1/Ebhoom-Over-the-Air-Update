@@ -1,12 +1,10 @@
-// mongodb+srv://ebhoomFileUpload:ebhoomFileUpload@fileupload.lpsg05j.mongodb.net/
-
 const express = require('express');
 const mongoose = require('mongoose');
 const multer = require('multer');
-const cors = require('cors')
+const cors = require('cors');
 const shortid = require('shortid');
 const path = require('path');
-const fs = require('fs');  
+const fs = require('fs');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -14,13 +12,15 @@ const port = process.env.PORT || 8080;
 // Connect to MongoDB
 mongoose.connect('mongodb+srv://ebhoomFileUpload:ebhoomFileUpload@fileupload.lpsg05j.mongodb.net/fileUpload', {
   useNewUrlParser: true,
-  useUnifiedTopology: true,  
+  useUnifiedTopology: true,
 });
+
 // Middleware
 app.use(cors({
-    origin:['http://localhost:3000','http://localhost:3001'] ,
-    credentials: true
+  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  credentials: true,
 }));
+
 // Define File Schema
 const fileSchema = new mongoose.Schema({
   filename: String,
@@ -68,6 +68,14 @@ app.get('/download/:shortId', async (req, res) => {
       console.error(err);
     }
   });
+});
+
+// Middleware to serve static files
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+// All other requests should be handled by React app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
 
 app.listen(port, () => {
