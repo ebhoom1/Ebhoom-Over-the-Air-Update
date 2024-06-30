@@ -16,7 +16,7 @@ const Upload = () => {
         formData.append('file', file);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/files/upload', formData);
+            const response = await axios.post('http://13.233.46.115:8080/api/files/upload', formData);
             setMessage(response.data.message);
             setDownloadLink(response.data.downloadLink);
         } catch (error) {
